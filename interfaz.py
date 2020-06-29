@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
-from an_lex import *
-from AnalizadorSintactico import *
+
+from AnalizadorLexico import *
+import AnalizadorSintactico as sintactico
+import Recursos as recursos
 
 sg.theme('GreenTan')  # No gray windows please!
 btnLexico = 'Analizar léxicamente'
@@ -9,6 +11,10 @@ txtInput= 'Caja de texto entrada'
 txtLex = 'Caja de texto Lex'
 txtSin = 'Caja de texto Sintac'
 
+""" Analizador léxico y sintáctico """
+lexico = AnalizadorLexico()
+lexico.construir()
+sintactico.construir()
 
 # STEP 1 define the layout
 layout = [
@@ -32,12 +38,11 @@ while True:
 	if event == sg.WIN_CLOSED:     # If user closed window with X or if user clicked "Exit" button then exit
 		break
 	if event == btnLexico:
-		#print(window[txtLex].get())
 		window[txtLex]('')
-		res =prueba(window[txtInput].get())
-		for resultado in res:
-			window[txtLex].Update(value=resultado, append=True)
-		print('You pressed the léxicamente')
+		tokens = lexico.analizarCadena(window[txtInput].get())
+		for token in tokens:
+			window[txtLex].Update(value=token, append=True)
+
 	elif event == btnSintactico:
 		window[txtSin]('')
 		try:
@@ -47,11 +52,8 @@ while True:
 		if not s:
 			continue
 		else:
-			res = prueba_sintactica(s)
-			for resultado in res:
-				resultado = resultado + '\n'
-				window[txtSin].Update(value=resultado, append=True)
+			resultado = sintactico.analizarCadena(s)
+			resultado = resultado + '\n'
+			window[txtSin].Update(value=resultado, append=True)
 			
-
-		print('You pressed the sintácticamente')
 window.close()

@@ -3,26 +3,28 @@
 
 import math
 
+from Programa import *
+
 """ Lista de nombre de los tokens """
 tokens = [
-	'MAS',
-	'MENOS',
-	'MULTIPLICACION',
-	'DIVISION',
-	'IGUAL',
 	'NUMERO',
-	'POTENCIA',
-	'PARENTESISIZQ',
-	'LLAVEIZQ',
-	'PARENTESISDER',
-	'LLAVEDER',
 	'SALTOLINEA',
 	'INDEFINIDA',
 	'VARIABLE',
 	'FUNCION',
-	'CONSTANTE',
+	'CONSTANTE'
 ]
-
+	
+""" Tokens compuestos por unicamente un símbolo """
+literals = [
+	'+','-',
+	'*','/',
+	'^',
+	'=',
+	';',
+	'(','{',
+	')','}'
+]
 
 
 """
@@ -83,6 +85,23 @@ variables = {}  # Diccionario que almacena el nombre(key) y valor(value) de las 
 
 
 
+tipoInstruccion = {
+		'STOP':False,
+		'constpush':Programa.programa().constpush,
+		'varpush':Programa.programa().varpush,
+		'evaluacion':Programa.programa().evaluacion,
+		'suma':Programa.programa().suma,
+		'resta':Programa.programa().resta,
+		'multiplicacion':Programa.programa().multiplicacion,
+		'division':Programa.programa().division,
+		'negacion':Programa.programa().negacion,
+		'potencia':Programa.programa().potencia,
+		'asignacion':Programa.programa().asignacion,
+		'funcion':Programa.programa().funcion,
+		'print':Programa.programa().print
+	}
+
+
 """
 	MENSAJES CONSOLA
 	>>>>>>>>>>>>>>>>
@@ -99,34 +118,33 @@ def imprimirResultado(resultado):
 
 
 
-"""
-	REGLAS GRAMATICALES
+	"""
+	Reglas gramaticales
 	>>>>>>>>>>>>>>>>>>>
 
-	lista 		: vacio
-				| lista SALTOLINEA
-				| lista asignacion termino
-				| lista expresion termino
-				| lista error termino
+	lista 	: vacio
+			| lista termino
+			| lista expresion termino
+			| lista error termino
 
-	asignacion 	: VARIABLE = expresion
+	asignacion : VARIABLE '=' expresion
 
 	expresion 	: NUMERO
-				| VARIABLE
 				| CONSTANTE
+				| VARIABLE
+				| INDEFINIDA
 				| asignacion
-				| FUNCION AGRUPADORIZQ expresion AGRUPADORDER
-				| expresion + expresion
-				| expresion - expresion
-				| expresion * expresion
-				| expresion / expresion
-				| expresion POTENCIA expresion %prec POTENCIA
-				| AGRUPADORIZQ expresion AGRUPADORDER
-				| - expresion %prec MENOSUNARIO
+				| FUNCION '(' expresion ')'
+				| '(' expresion ')'
+				| expresion '+' expresion
+				| expresion '-' expresion
+				| expresion '*' expresion
+				| expresion '/' expresion
+				| expresion '^' expresion
+				| '-' expresion %prec MENOSUNARIO
 
-	vacio 		:
+	termino : vacio
+			| ';'
 
-	termino 	: vacio
-				| SALTOLINEA
-
+	vacio :
 """

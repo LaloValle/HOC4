@@ -3,6 +3,8 @@
 
 # Importacion del módulo de la implementación de yacc en python
 import ply.yacc as yacc
+
+from Programa import *
 import Recursos as recursos
 
 # Lista de nombres de los tokens
@@ -10,90 +12,90 @@ import Recursos as recursos
 tokens = recursos.tokens
 parser = None
 
-"""
-	Reglas gramaticales
-	>>>>>>>>>>>>>>>>>>>
-"""
+
+programa = Programa.programa()
 
 precedence = (
-	('left', 'MAS', 'MENOS'),
-	('left', 'MULTIPLICACION', 'DIVISION'),
+	('left', '+', '-'),
+	('left', '*', '/'),
 	('left', 'MENOSUNARIO'),
-	('right', 'POTENCIA')
+	('right', '^')
 )
 
 def p_lista(p):
 	'''
 	lista 	: vacio
 			| lista SALTOLINEA
-			| lista asignacion ;
-			| lista expresion ;
+			| lista expresion termino
 	'''
 	try:
 		p[0] = p[(1 if len(p) == 3 else 2)]
 		if len(p) == 4:
-			print('\x1b[0;m'+'HOC3 >> ',p[2])
+			programa.agregarInstrucciones('print','STOP')
 	except: pass
 
 def p_lista_error(p):
 	''' lista : lista error termino '''
-	recursos.mostrarError('ErrorSintaxis','Error de sintaxis en la regla lista. Expresión erronea')
+	recursos.imprimirError('ErrorSintaxis','Error de sintaxis en la regla lista. Expresión erronea')
 	# Se agotan los token
 	while True:
 		if not parser.token(): break
 
+
 def p_asignacion(p):
-	''' asignacion : VARIABLE IGUAL expresion'''
-	p[0] = variables[p[1]] = p[3]
+	''' asignacion 	: VARIABLE '=' expresion
+					| INDEFINIDA '=' expresion
+	'''
+	p[0] = p[3]
+	programa.agregarInstrucciones('varpush',p[1],'asignacion')
+	pass
+
 
 def p_expresion_reducciones(p):
 	'''
 	expresion 	: NUMERO
 				| CONSTANTE
-				| asignacion
 	'''
 	p[0] = p[1]
+	programa.agregarInstrucciones('constpush',p[1])
 
 def p_expresion_variable(p):
-	''' expresion : VARIABLE '''
-	if p[1] not in variables:
-		recursos.mostrarError('ErrorVariable','Error en utilización de variable no definida \'{}\''.format(p[1]))
-		raise SyntaxError
-	else: p[0] = variables[p[1]]
+	'''	expresion 	: VARIABLE 
+					| INDEFINIDA
+	'''
+	p[0] = p[1]
+	programa.agregarInstrucciones('varpush',p[1])
+
+def p_expresion_asignacion(p):
+	''' expresion : asignacion '''
+	p[0] = p[1]
 
 def p_expresion_operaciones(p):
 	''' 
-	expresion 	: FUNCION AGRUPADORIZQ expresion AGRUPADORDER
-				| expresion + expresion
-				| expresion - expresion
-				| expresion * expresion
-				| expresion / expresion
-				| expresion ^ expresion %prec POTENCIA
+	expresion 	: FUNCION '(' expresion ')'
+				| expresion '+' expresion
+				| expresion '-' expresion
+				| expresion '*' expresion
+				| expresion '/' expresion
+				| expresion '^' expresion
 	'''
-	if len(p) == 4:
-		# Operaciones binarias
+	if len(p) == 4: # Operaciones binarias
 		operador = p[2]
-		if   operador == '+': p[0] = p[1] + p[3]
-		elif operador == '-': p[0] = p[1] - p[3]
-		elif operador == '*': p[0] = p[1] * p[3]
-		elif operador == '/': 
-			if p[3] == 0:
-				recursos.mostrarError('DivisorZero','Se trata de dividir entre 0')
-				raise SyntaxError
-			else: p[0] = p[1] / p[3]
-		else: p[0] = p[1] ** p[3]
+		if operador == '+': programa.agregarInstrucciones('suma')
+		elif operador == '-': programa.agregarInstrucciones('resta')
+		elif operador == '*': programa.agregarInstrucciones('multiplicacion')
+		elif operador == '/': programa.agregarInstrucciones('division')
+		else: programa.agregarInstrucciones('potencia')
+	else:  # Funciones
+		programa.agregarInstrucciones('funcion',p[1])
 
-	else:
-		# Funciones
-		p[0] = p[1](p[3])
-
-def p_expresion_asignaciones(p):
+def p_expresion_modificaciones(p):
 	''' 
-	expresion 	: AGRUPADORIZQ expresion AGRUPADORDER
-				| MENOS expresion %prec MENOSUNARIO
+	expresion 	: '(' expresion ')'
+				| '-' expresion %prec MENOSUNARIO
 	'''
-	p[0] = p[2] * (-1 if p[1] == '-' else 1)
-
+	if p[1] == '(': p[0] = p[2]
+	else: programa.agregarInstrucciones('negacion')
 
 def p_vacio(p):
 	''' vacio : '''
@@ -101,16 +103,17 @@ def p_vacio(p):
 
 def p_termino(p):
 	'''termino  : vacio
-				| ;'''
+				| ';' '''
 	pass
 
 def p_error(p):
 	if p:
-		recursos.mostrarError('ErrorSintaxis','Error en el token'.format(p.type))
+		recursos.imprimirError('ErrorSintaxis','Error en el token {}'.format(p.type))
 		# Descarta el token y prosigue con el proceso
 		parser.errok()
 	else:
-		recursos.mostrarError('Error','Fin del entrada')
+		recursos.imprimirError('Error','Fin del entrada')
+
 
 """
 	Funciones
@@ -124,4 +127,5 @@ def construir():
 def analizarCadena(cadena):
 	global parser
 	resultado = parser.parse(cadena)
+	resultado = 'Análisis valido'
 	return resultado
