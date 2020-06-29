@@ -9,10 +9,19 @@ class AnalizadorLexico(object):
 
 	tokens = recursos.tokens  # Lista de nombres de los tokens
 
+	literals = [
+		'+', '-',
+		'*','/',
+		'^'
+		'=',
+		';',
+		'(','{',
+		')','}'
+	]
+
 	""" 
 		EXPRESIONES REGULARES DE LOS TOKENS 
 		>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		
 	"""
 
 	t_ignore = ' \t' # Ignora espacios y tabuladores
@@ -20,19 +29,6 @@ class AnalizadorLexico(object):
 	def t_SALTOLINEA(self,t):
 		r'\n'
 		self.lineas += 1
-		return t
-
-	""" Tokens operadores aritméticos """
-	t_MAS =  r'\+'
-	t_MENOS = r'-'
-	t_POTENCIA = r'\*\*'
-	t_MULTIPLICACION = r'\*'
-	t_DIVISION = r'/'
-	t_IGUAL = r'='
-
-	''' Tokens agrupadores '''
-	t_AGRUPADORIZQ = r'[\(\[\{]'
-	t_AGRUPADORDER = r'[\)\]\}]'
 		return t
 
 	def t_NUMERO(self,t):
@@ -67,6 +63,8 @@ class AnalizadorLexico(object):
 	def t_error(self,t):
 		recursos.mostrarError('ErrorLexico','No se ha reconocido el caracter {} en la línea {}, posición {}'.format(t.value[0],t.lineno,t.lexpos))
 		t.lexer.skip(1) 	# Salta la ejecución al lexema siguiente
+
+
 
 	"""	
 		MÉTODOS
