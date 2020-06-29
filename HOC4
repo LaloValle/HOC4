@@ -1,0 +1,27 @@
+HOC4
+====
+
+	Tipos de símbolos(TOKENS)
+	+++++++++++++++++++++++++
+
+		# VARIABLE
+		# INDEFINIDA
+		# FUNCION
+		# CONSTANTE
+
+	Instrucciones del programa(funciones)
+	+++++++++++++++++++++++++++++++++++++
+
+		# evaluacion
+		# suma
+		# resta
+		# multiplicación
+		# división
+		# negación
+		# potencia
+		# asignación
+		# función
+		# variable
+		# constante
+		# print
+		# stop
