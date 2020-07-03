@@ -5,14 +5,14 @@ Grammar
 Rule 0     S' -> lista
 Rule 1     lista -> vacio
 Rule 2     lista -> lista SALTOLINEA
-Rule 3     lista -> lista expresion termino
-Rule 4     lista -> lista error termino
-Rule 5     asignacion -> VARIABLE = expresion
-Rule 6     asignacion -> INDEFINIDA = expresion
-Rule 7     expresion -> NUMERO
-Rule 8     expresion -> CONSTANTE
-Rule 9     expresion -> VARIABLE
-Rule 10    expresion -> INDEFINIDA
+Rule 3     lista -> lista ;
+Rule 4     lista -> lista expresion termino
+Rule 5     lista -> lista error termino
+Rule 6     asignacion -> VARIABLE = expresion
+Rule 7     asignacion -> INDEFINIDA = expresion
+Rule 8     expresion -> NUMERO
+Rule 9     expresion -> CONSTANTE
+Rule 10    expresion -> VARIABLE
 Rule 11    expresion -> asignacion
 Rule 12    expresion -> FUNCION ( expresion )
 Rule 13    expresion -> expresion + expresion
@@ -34,23 +34,23 @@ Terminals, with rules where they appear
 +                    : 13
 -                    : 14 19
 /                    : 16
-;                    : 22
-=                    : 5 6
-CONSTANTE            : 8
+;                    : 3 22
+=                    : 6 7
+CONSTANTE            : 9
 FUNCION              : 12
-INDEFINIDA           : 6 10
-NUMERO               : 7
+INDEFINIDA           : 7
+NUMERO               : 8
 SALTOLINEA           : 2
-VARIABLE             : 5 9
+VARIABLE             : 6 10
 ^                    : 17
-error                : 4
+error                : 5
 
 Nonterminals, with rules where they appear
 
 asignacion           : 11
-expresion            : 3 5 6 12 13 13 14 14 15 15 16 16 17 17 18 19
-lista                : 2 3 4 0
-termino              : 3 4
+expresion            : 4 6 7 12 13 13 14 14 15 15 16 16 17 17 18 19
+lista                : 2 3 4 5 0
+termino              : 4 5
 vacio                : 1 21
 
 Parsing method: LALR
@@ -60,19 +60,21 @@ state 0
     (0) S' -> . lista
     (1) lista -> . vacio
     (2) lista -> . lista SALTOLINEA
-    (3) lista -> . lista expresion termino
-    (4) lista -> . lista error termino
+    (3) lista -> . lista ;
+    (4) lista -> . lista expresion termino
+    (5) lista -> . lista error termino
     (20) vacio -> .
 
     SALTOLINEA      reduce using rule 20 (vacio -> .)
+    ;               reduce using rule 20 (vacio -> .)
     error           reduce using rule 20 (vacio -> .)
     NUMERO          reduce using rule 20 (vacio -> .)
     CONSTANTE       reduce using rule 20 (vacio -> .)
     VARIABLE        reduce using rule 20 (vacio -> .)
-    INDEFINIDA      reduce using rule 20 (vacio -> .)
     FUNCION         reduce using rule 20 (vacio -> .)
     (               reduce using rule 20 (vacio -> .)
     -               reduce using rule 20 (vacio -> .)
+    INDEFINIDA      reduce using rule 20 (vacio -> .)
     $end            reduce using rule 20 (vacio -> .)
 
     lista                          shift and go to state 1
@@ -82,12 +84,12 @@ state 1
 
     (0) S' -> lista .
     (2) lista -> lista . SALTOLINEA
-    (3) lista -> lista . expresion termino
-    (4) lista -> lista . error termino
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (3) lista -> lista . ;
+    (4) lista -> lista . expresion termino
+    (5) lista -> lista . error termino
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -97,20 +99,21 @@ state 1
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
     SALTOLINEA      shift and go to state 3
-    error           shift and go to state 5
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    ;               shift and go to state 4
+    error           shift and go to state 6
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
-    expresion                      shift and go to state 4
+    expresion                      shift and go to state 5
     asignacion                     shift and go to state 10
 
 state 2
@@ -118,14 +121,15 @@ state 2
     (1) lista -> vacio .
 
     SALTOLINEA      reduce using rule 1 (lista -> vacio .)
+    ;               reduce using rule 1 (lista -> vacio .)
     error           reduce using rule 1 (lista -> vacio .)
     NUMERO          reduce using rule 1 (lista -> vacio .)
     CONSTANTE       reduce using rule 1 (lista -> vacio .)
     VARIABLE        reduce using rule 1 (lista -> vacio .)
-    INDEFINIDA      reduce using rule 1 (lista -> vacio .)
     FUNCION         reduce using rule 1 (lista -> vacio .)
     (               reduce using rule 1 (lista -> vacio .)
     -               reduce using rule 1 (lista -> vacio .)
+    INDEFINIDA      reduce using rule 1 (lista -> vacio .)
     $end            reduce using rule 1 (lista -> vacio .)
 
 
@@ -134,20 +138,38 @@ state 3
     (2) lista -> lista SALTOLINEA .
 
     SALTOLINEA      reduce using rule 2 (lista -> lista SALTOLINEA .)
+    ;               reduce using rule 2 (lista -> lista SALTOLINEA .)
     error           reduce using rule 2 (lista -> lista SALTOLINEA .)
     NUMERO          reduce using rule 2 (lista -> lista SALTOLINEA .)
     CONSTANTE       reduce using rule 2 (lista -> lista SALTOLINEA .)
     VARIABLE        reduce using rule 2 (lista -> lista SALTOLINEA .)
-    INDEFINIDA      reduce using rule 2 (lista -> lista SALTOLINEA .)
     FUNCION         reduce using rule 2 (lista -> lista SALTOLINEA .)
     (               reduce using rule 2 (lista -> lista SALTOLINEA .)
     -               reduce using rule 2 (lista -> lista SALTOLINEA .)
+    INDEFINIDA      reduce using rule 2 (lista -> lista SALTOLINEA .)
     $end            reduce using rule 2 (lista -> lista SALTOLINEA .)
 
 
 state 4
 
-    (3) lista -> lista expresion . termino
+    (3) lista -> lista ; .
+
+    SALTOLINEA      reduce using rule 3 (lista -> lista ; .)
+    ;               reduce using rule 3 (lista -> lista ; .)
+    error           reduce using rule 3 (lista -> lista ; .)
+    NUMERO          reduce using rule 3 (lista -> lista ; .)
+    CONSTANTE       reduce using rule 3 (lista -> lista ; .)
+    VARIABLE        reduce using rule 3 (lista -> lista ; .)
+    FUNCION         reduce using rule 3 (lista -> lista ; .)
+    (               reduce using rule 3 (lista -> lista ; .)
+    -               reduce using rule 3 (lista -> lista ; .)
+    INDEFINIDA      reduce using rule 3 (lista -> lista ; .)
+    $end            reduce using rule 3 (lista -> lista ; .)
+
+
+state 5
+
+    (4) lista -> lista expresion . termino
     (13) expresion -> expresion . + expresion
     (14) expresion -> expresion . - expresion
     (15) expresion -> expresion . * expresion
@@ -157,139 +179,120 @@ state 4
     (22) termino -> . ;
     (20) vacio -> .
 
+  ! shift/reduce conflict for ; resolved as shift
   ! shift/reduce conflict for - resolved as shift
-    +               shift and go to state 15
-    -               shift and go to state 16
-    *               shift and go to state 17
-    /               shift and go to state 18
-    ^               shift and go to state 19
-    ;               shift and go to state 21
+    +               shift and go to state 16
+    -               shift and go to state 17
+    *               shift and go to state 18
+    /               shift and go to state 19
+    ^               shift and go to state 20
+    ;               shift and go to state 22
     SALTOLINEA      reduce using rule 20 (vacio -> .)
     error           reduce using rule 20 (vacio -> .)
     NUMERO          reduce using rule 20 (vacio -> .)
     CONSTANTE       reduce using rule 20 (vacio -> .)
     VARIABLE        reduce using rule 20 (vacio -> .)
-    INDEFINIDA      reduce using rule 20 (vacio -> .)
     FUNCION         reduce using rule 20 (vacio -> .)
     (               reduce using rule 20 (vacio -> .)
+    INDEFINIDA      reduce using rule 20 (vacio -> .)
     $end            reduce using rule 20 (vacio -> .)
 
+  ! ;               [ reduce using rule 20 (vacio -> .) ]
   ! -               [ reduce using rule 20 (vacio -> .) ]
 
-    termino                        shift and go to state 14
-    vacio                          shift and go to state 20
+    termino                        shift and go to state 15
+    vacio                          shift and go to state 21
 
-state 5
+state 6
 
-    (4) lista -> lista error . termino
+    (5) lista -> lista error . termino
     (21) termino -> . vacio
     (22) termino -> . ;
     (20) vacio -> .
 
-    ;               shift and go to state 21
+  ! shift/reduce conflict for ; resolved as shift
+    ;               shift and go to state 22
     SALTOLINEA      reduce using rule 20 (vacio -> .)
     error           reduce using rule 20 (vacio -> .)
     NUMERO          reduce using rule 20 (vacio -> .)
     CONSTANTE       reduce using rule 20 (vacio -> .)
     VARIABLE        reduce using rule 20 (vacio -> .)
-    INDEFINIDA      reduce using rule 20 (vacio -> .)
     FUNCION         reduce using rule 20 (vacio -> .)
     (               reduce using rule 20 (vacio -> .)
     -               reduce using rule 20 (vacio -> .)
+    INDEFINIDA      reduce using rule 20 (vacio -> .)
     $end            reduce using rule 20 (vacio -> .)
 
-    termino                        shift and go to state 22
-    vacio                          shift and go to state 20
+  ! ;               [ reduce using rule 20 (vacio -> .) ]
 
-state 6
-
-    (7) expresion -> NUMERO .
-
-    +               reduce using rule 7 (expresion -> NUMERO .)
-    -               reduce using rule 7 (expresion -> NUMERO .)
-    *               reduce using rule 7 (expresion -> NUMERO .)
-    /               reduce using rule 7 (expresion -> NUMERO .)
-    ^               reduce using rule 7 (expresion -> NUMERO .)
-    ;               reduce using rule 7 (expresion -> NUMERO .)
-    SALTOLINEA      reduce using rule 7 (expresion -> NUMERO .)
-    error           reduce using rule 7 (expresion -> NUMERO .)
-    NUMERO          reduce using rule 7 (expresion -> NUMERO .)
-    CONSTANTE       reduce using rule 7 (expresion -> NUMERO .)
-    VARIABLE        reduce using rule 7 (expresion -> NUMERO .)
-    INDEFINIDA      reduce using rule 7 (expresion -> NUMERO .)
-    FUNCION         reduce using rule 7 (expresion -> NUMERO .)
-    (               reduce using rule 7 (expresion -> NUMERO .)
-    $end            reduce using rule 7 (expresion -> NUMERO .)
-    )               reduce using rule 7 (expresion -> NUMERO .)
-
+    termino                        shift and go to state 23
+    vacio                          shift and go to state 21
 
 state 7
 
-    (8) expresion -> CONSTANTE .
+    (8) expresion -> NUMERO .
 
-    +               reduce using rule 8 (expresion -> CONSTANTE .)
-    -               reduce using rule 8 (expresion -> CONSTANTE .)
-    *               reduce using rule 8 (expresion -> CONSTANTE .)
-    /               reduce using rule 8 (expresion -> CONSTANTE .)
-    ^               reduce using rule 8 (expresion -> CONSTANTE .)
-    ;               reduce using rule 8 (expresion -> CONSTANTE .)
-    SALTOLINEA      reduce using rule 8 (expresion -> CONSTANTE .)
-    error           reduce using rule 8 (expresion -> CONSTANTE .)
-    NUMERO          reduce using rule 8 (expresion -> CONSTANTE .)
-    CONSTANTE       reduce using rule 8 (expresion -> CONSTANTE .)
-    VARIABLE        reduce using rule 8 (expresion -> CONSTANTE .)
-    INDEFINIDA      reduce using rule 8 (expresion -> CONSTANTE .)
-    FUNCION         reduce using rule 8 (expresion -> CONSTANTE .)
-    (               reduce using rule 8 (expresion -> CONSTANTE .)
-    $end            reduce using rule 8 (expresion -> CONSTANTE .)
-    )               reduce using rule 8 (expresion -> CONSTANTE .)
+    +               reduce using rule 8 (expresion -> NUMERO .)
+    -               reduce using rule 8 (expresion -> NUMERO .)
+    *               reduce using rule 8 (expresion -> NUMERO .)
+    /               reduce using rule 8 (expresion -> NUMERO .)
+    ^               reduce using rule 8 (expresion -> NUMERO .)
+    ;               reduce using rule 8 (expresion -> NUMERO .)
+    SALTOLINEA      reduce using rule 8 (expresion -> NUMERO .)
+    error           reduce using rule 8 (expresion -> NUMERO .)
+    NUMERO          reduce using rule 8 (expresion -> NUMERO .)
+    CONSTANTE       reduce using rule 8 (expresion -> NUMERO .)
+    VARIABLE        reduce using rule 8 (expresion -> NUMERO .)
+    FUNCION         reduce using rule 8 (expresion -> NUMERO .)
+    (               reduce using rule 8 (expresion -> NUMERO .)
+    INDEFINIDA      reduce using rule 8 (expresion -> NUMERO .)
+    $end            reduce using rule 8 (expresion -> NUMERO .)
+    )               reduce using rule 8 (expresion -> NUMERO .)
 
 
 state 8
 
-    (9) expresion -> VARIABLE .
-    (5) asignacion -> VARIABLE . = expresion
+    (9) expresion -> CONSTANTE .
 
-    +               reduce using rule 9 (expresion -> VARIABLE .)
-    -               reduce using rule 9 (expresion -> VARIABLE .)
-    *               reduce using rule 9 (expresion -> VARIABLE .)
-    /               reduce using rule 9 (expresion -> VARIABLE .)
-    ^               reduce using rule 9 (expresion -> VARIABLE .)
-    ;               reduce using rule 9 (expresion -> VARIABLE .)
-    SALTOLINEA      reduce using rule 9 (expresion -> VARIABLE .)
-    error           reduce using rule 9 (expresion -> VARIABLE .)
-    NUMERO          reduce using rule 9 (expresion -> VARIABLE .)
-    CONSTANTE       reduce using rule 9 (expresion -> VARIABLE .)
-    VARIABLE        reduce using rule 9 (expresion -> VARIABLE .)
-    INDEFINIDA      reduce using rule 9 (expresion -> VARIABLE .)
-    FUNCION         reduce using rule 9 (expresion -> VARIABLE .)
-    (               reduce using rule 9 (expresion -> VARIABLE .)
-    $end            reduce using rule 9 (expresion -> VARIABLE .)
-    )               reduce using rule 9 (expresion -> VARIABLE .)
-    =               shift and go to state 23
+    +               reduce using rule 9 (expresion -> CONSTANTE .)
+    -               reduce using rule 9 (expresion -> CONSTANTE .)
+    *               reduce using rule 9 (expresion -> CONSTANTE .)
+    /               reduce using rule 9 (expresion -> CONSTANTE .)
+    ^               reduce using rule 9 (expresion -> CONSTANTE .)
+    ;               reduce using rule 9 (expresion -> CONSTANTE .)
+    SALTOLINEA      reduce using rule 9 (expresion -> CONSTANTE .)
+    error           reduce using rule 9 (expresion -> CONSTANTE .)
+    NUMERO          reduce using rule 9 (expresion -> CONSTANTE .)
+    CONSTANTE       reduce using rule 9 (expresion -> CONSTANTE .)
+    VARIABLE        reduce using rule 9 (expresion -> CONSTANTE .)
+    FUNCION         reduce using rule 9 (expresion -> CONSTANTE .)
+    (               reduce using rule 9 (expresion -> CONSTANTE .)
+    INDEFINIDA      reduce using rule 9 (expresion -> CONSTANTE .)
+    $end            reduce using rule 9 (expresion -> CONSTANTE .)
+    )               reduce using rule 9 (expresion -> CONSTANTE .)
 
 
 state 9
 
-    (10) expresion -> INDEFINIDA .
-    (6) asignacion -> INDEFINIDA . = expresion
+    (10) expresion -> VARIABLE .
+    (6) asignacion -> VARIABLE . = expresion
 
-    +               reduce using rule 10 (expresion -> INDEFINIDA .)
-    -               reduce using rule 10 (expresion -> INDEFINIDA .)
-    *               reduce using rule 10 (expresion -> INDEFINIDA .)
-    /               reduce using rule 10 (expresion -> INDEFINIDA .)
-    ^               reduce using rule 10 (expresion -> INDEFINIDA .)
-    ;               reduce using rule 10 (expresion -> INDEFINIDA .)
-    SALTOLINEA      reduce using rule 10 (expresion -> INDEFINIDA .)
-    error           reduce using rule 10 (expresion -> INDEFINIDA .)
-    NUMERO          reduce using rule 10 (expresion -> INDEFINIDA .)
-    CONSTANTE       reduce using rule 10 (expresion -> INDEFINIDA .)
-    VARIABLE        reduce using rule 10 (expresion -> INDEFINIDA .)
-    INDEFINIDA      reduce using rule 10 (expresion -> INDEFINIDA .)
-    FUNCION         reduce using rule 10 (expresion -> INDEFINIDA .)
-    (               reduce using rule 10 (expresion -> INDEFINIDA .)
-    $end            reduce using rule 10 (expresion -> INDEFINIDA .)
-    )               reduce using rule 10 (expresion -> INDEFINIDA .)
+    +               reduce using rule 10 (expresion -> VARIABLE .)
+    -               reduce using rule 10 (expresion -> VARIABLE .)
+    *               reduce using rule 10 (expresion -> VARIABLE .)
+    /               reduce using rule 10 (expresion -> VARIABLE .)
+    ^               reduce using rule 10 (expresion -> VARIABLE .)
+    ;               reduce using rule 10 (expresion -> VARIABLE .)
+    SALTOLINEA      reduce using rule 10 (expresion -> VARIABLE .)
+    error           reduce using rule 10 (expresion -> VARIABLE .)
+    NUMERO          reduce using rule 10 (expresion -> VARIABLE .)
+    CONSTANTE       reduce using rule 10 (expresion -> VARIABLE .)
+    VARIABLE        reduce using rule 10 (expresion -> VARIABLE .)
+    FUNCION         reduce using rule 10 (expresion -> VARIABLE .)
+    (               reduce using rule 10 (expresion -> VARIABLE .)
+    INDEFINIDA      reduce using rule 10 (expresion -> VARIABLE .)
+    $end            reduce using rule 10 (expresion -> VARIABLE .)
+    )               reduce using rule 10 (expresion -> VARIABLE .)
     =               shift and go to state 24
 
 
@@ -308,9 +311,9 @@ state 10
     NUMERO          reduce using rule 11 (expresion -> asignacion .)
     CONSTANTE       reduce using rule 11 (expresion -> asignacion .)
     VARIABLE        reduce using rule 11 (expresion -> asignacion .)
-    INDEFINIDA      reduce using rule 11 (expresion -> asignacion .)
     FUNCION         reduce using rule 11 (expresion -> asignacion .)
     (               reduce using rule 11 (expresion -> asignacion .)
+    INDEFINIDA      reduce using rule 11 (expresion -> asignacion .)
     $end            reduce using rule 11 (expresion -> asignacion .)
     )               reduce using rule 11 (expresion -> asignacion .)
 
@@ -325,10 +328,9 @@ state 11
 state 12
 
     (18) expresion -> ( . expresion )
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -338,16 +340,16 @@ state 12
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 26
     asignacion                     shift and go to state 10
@@ -355,10 +357,9 @@ state 12
 state 13
 
     (19) expresion -> - . expresion
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -368,73 +369,50 @@ state 13
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 27
     asignacion                     shift and go to state 10
 
 state 14
 
-    (3) lista -> lista expresion termino .
+    (7) asignacion -> INDEFINIDA . = expresion
 
-    SALTOLINEA      reduce using rule 3 (lista -> lista expresion termino .)
-    error           reduce using rule 3 (lista -> lista expresion termino .)
-    NUMERO          reduce using rule 3 (lista -> lista expresion termino .)
-    CONSTANTE       reduce using rule 3 (lista -> lista expresion termino .)
-    VARIABLE        reduce using rule 3 (lista -> lista expresion termino .)
-    INDEFINIDA      reduce using rule 3 (lista -> lista expresion termino .)
-    FUNCION         reduce using rule 3 (lista -> lista expresion termino .)
-    (               reduce using rule 3 (lista -> lista expresion termino .)
-    -               reduce using rule 3 (lista -> lista expresion termino .)
-    $end            reduce using rule 3 (lista -> lista expresion termino .)
+    =               shift and go to state 28
 
 
 state 15
 
-    (13) expresion -> expresion + . expresion
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
-    (11) expresion -> . asignacion
-    (12) expresion -> . FUNCION ( expresion )
-    (13) expresion -> . expresion + expresion
-    (14) expresion -> . expresion - expresion
-    (15) expresion -> . expresion * expresion
-    (16) expresion -> . expresion / expresion
-    (17) expresion -> . expresion ^ expresion
-    (18) expresion -> . ( expresion )
-    (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (4) lista -> lista expresion termino .
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
-    FUNCION         shift and go to state 11
-    (               shift and go to state 12
-    -               shift and go to state 13
+    SALTOLINEA      reduce using rule 4 (lista -> lista expresion termino .)
+    ;               reduce using rule 4 (lista -> lista expresion termino .)
+    error           reduce using rule 4 (lista -> lista expresion termino .)
+    NUMERO          reduce using rule 4 (lista -> lista expresion termino .)
+    CONSTANTE       reduce using rule 4 (lista -> lista expresion termino .)
+    VARIABLE        reduce using rule 4 (lista -> lista expresion termino .)
+    FUNCION         reduce using rule 4 (lista -> lista expresion termino .)
+    (               reduce using rule 4 (lista -> lista expresion termino .)
+    -               reduce using rule 4 (lista -> lista expresion termino .)
+    INDEFINIDA      reduce using rule 4 (lista -> lista expresion termino .)
+    $end            reduce using rule 4 (lista -> lista expresion termino .)
 
-    expresion                      shift and go to state 28
-    asignacion                     shift and go to state 10
 
 state 16
 
-    (14) expresion -> expresion - . expresion
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (13) expresion -> expresion + . expresion
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -444,27 +422,26 @@ state 16
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 29
     asignacion                     shift and go to state 10
 
 state 17
 
-    (15) expresion -> expresion * . expresion
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (14) expresion -> expresion - . expresion
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -474,27 +451,26 @@ state 17
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 30
     asignacion                     shift and go to state 10
 
 state 18
 
-    (16) expresion -> expresion / . expresion
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (15) expresion -> expresion * . expresion
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -504,27 +480,26 @@ state 18
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 31
     asignacion                     shift and go to state 10
 
 state 19
 
-    (17) expresion -> expresion ^ . expresion
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (16) expresion -> expresion / . expresion
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -534,75 +509,26 @@ state 19
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 32
     asignacion                     shift and go to state 10
 
 state 20
 
-    (21) termino -> vacio .
-
-    SALTOLINEA      reduce using rule 21 (termino -> vacio .)
-    error           reduce using rule 21 (termino -> vacio .)
-    NUMERO          reduce using rule 21 (termino -> vacio .)
-    CONSTANTE       reduce using rule 21 (termino -> vacio .)
-    VARIABLE        reduce using rule 21 (termino -> vacio .)
-    INDEFINIDA      reduce using rule 21 (termino -> vacio .)
-    FUNCION         reduce using rule 21 (termino -> vacio .)
-    (               reduce using rule 21 (termino -> vacio .)
-    -               reduce using rule 21 (termino -> vacio .)
-    $end            reduce using rule 21 (termino -> vacio .)
-
-
-state 21
-
-    (22) termino -> ; .
-
-    SALTOLINEA      reduce using rule 22 (termino -> ; .)
-    error           reduce using rule 22 (termino -> ; .)
-    NUMERO          reduce using rule 22 (termino -> ; .)
-    CONSTANTE       reduce using rule 22 (termino -> ; .)
-    VARIABLE        reduce using rule 22 (termino -> ; .)
-    INDEFINIDA      reduce using rule 22 (termino -> ; .)
-    FUNCION         reduce using rule 22 (termino -> ; .)
-    (               reduce using rule 22 (termino -> ; .)
-    -               reduce using rule 22 (termino -> ; .)
-    $end            reduce using rule 22 (termino -> ; .)
-
-
-state 22
-
-    (4) lista -> lista error termino .
-
-    SALTOLINEA      reduce using rule 4 (lista -> lista error termino .)
-    error           reduce using rule 4 (lista -> lista error termino .)
-    NUMERO          reduce using rule 4 (lista -> lista error termino .)
-    CONSTANTE       reduce using rule 4 (lista -> lista error termino .)
-    VARIABLE        reduce using rule 4 (lista -> lista error termino .)
-    INDEFINIDA      reduce using rule 4 (lista -> lista error termino .)
-    FUNCION         reduce using rule 4 (lista -> lista error termino .)
-    (               reduce using rule 4 (lista -> lista error termino .)
-    -               reduce using rule 4 (lista -> lista error termino .)
-    $end            reduce using rule 4 (lista -> lista error termino .)
-
-
-state 23
-
-    (5) asignacion -> VARIABLE = . expresion
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (17) expresion -> expresion ^ . expresion
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -612,27 +538,77 @@ state 23
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 33
     asignacion                     shift and go to state 10
 
+state 21
+
+    (21) termino -> vacio .
+
+    SALTOLINEA      reduce using rule 21 (termino -> vacio .)
+    ;               reduce using rule 21 (termino -> vacio .)
+    error           reduce using rule 21 (termino -> vacio .)
+    NUMERO          reduce using rule 21 (termino -> vacio .)
+    CONSTANTE       reduce using rule 21 (termino -> vacio .)
+    VARIABLE        reduce using rule 21 (termino -> vacio .)
+    FUNCION         reduce using rule 21 (termino -> vacio .)
+    (               reduce using rule 21 (termino -> vacio .)
+    -               reduce using rule 21 (termino -> vacio .)
+    INDEFINIDA      reduce using rule 21 (termino -> vacio .)
+    $end            reduce using rule 21 (termino -> vacio .)
+
+
+state 22
+
+    (22) termino -> ; .
+
+    SALTOLINEA      reduce using rule 22 (termino -> ; .)
+    ;               reduce using rule 22 (termino -> ; .)
+    error           reduce using rule 22 (termino -> ; .)
+    NUMERO          reduce using rule 22 (termino -> ; .)
+    CONSTANTE       reduce using rule 22 (termino -> ; .)
+    VARIABLE        reduce using rule 22 (termino -> ; .)
+    FUNCION         reduce using rule 22 (termino -> ; .)
+    (               reduce using rule 22 (termino -> ; .)
+    -               reduce using rule 22 (termino -> ; .)
+    INDEFINIDA      reduce using rule 22 (termino -> ; .)
+    $end            reduce using rule 22 (termino -> ; .)
+
+
+state 23
+
+    (5) lista -> lista error termino .
+
+    SALTOLINEA      reduce using rule 5 (lista -> lista error termino .)
+    ;               reduce using rule 5 (lista -> lista error termino .)
+    error           reduce using rule 5 (lista -> lista error termino .)
+    NUMERO          reduce using rule 5 (lista -> lista error termino .)
+    CONSTANTE       reduce using rule 5 (lista -> lista error termino .)
+    VARIABLE        reduce using rule 5 (lista -> lista error termino .)
+    FUNCION         reduce using rule 5 (lista -> lista error termino .)
+    (               reduce using rule 5 (lista -> lista error termino .)
+    -               reduce using rule 5 (lista -> lista error termino .)
+    INDEFINIDA      reduce using rule 5 (lista -> lista error termino .)
+    $end            reduce using rule 5 (lista -> lista error termino .)
+
+
 state 24
 
-    (6) asignacion -> INDEFINIDA = . expresion
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (6) asignacion -> VARIABLE = . expresion
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -642,16 +618,16 @@ state 24
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 34
     asignacion                     shift and go to state 10
@@ -659,10 +635,9 @@ state 24
 state 25
 
     (12) expresion -> FUNCION ( . expresion )
-    (7) expresion -> . NUMERO
-    (8) expresion -> . CONSTANTE
-    (9) expresion -> . VARIABLE
-    (10) expresion -> . INDEFINIDA
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
     (11) expresion -> . asignacion
     (12) expresion -> . FUNCION ( expresion )
     (13) expresion -> . expresion + expresion
@@ -672,16 +647,16 @@ state 25
     (17) expresion -> . expresion ^ expresion
     (18) expresion -> . ( expresion )
     (19) expresion -> . - expresion
-    (5) asignacion -> . VARIABLE = expresion
-    (6) asignacion -> . INDEFINIDA = expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
 
-    NUMERO          shift and go to state 6
-    CONSTANTE       shift and go to state 7
-    VARIABLE        shift and go to state 8
-    INDEFINIDA      shift and go to state 9
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
     FUNCION         shift and go to state 11
     (               shift and go to state 12
     -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
 
     expresion                      shift and go to state 35
     asignacion                     shift and go to state 10
@@ -696,11 +671,11 @@ state 26
     (17) expresion -> expresion . ^ expresion
 
     )               shift and go to state 36
-    +               shift and go to state 15
-    -               shift and go to state 16
-    *               shift and go to state 17
-    /               shift and go to state 18
-    ^               shift and go to state 19
+    +               shift and go to state 16
+    -               shift and go to state 17
+    *               shift and go to state 18
+    /               shift and go to state 19
+    ^               shift and go to state 20
 
 
 state 27
@@ -722,21 +697,50 @@ state 27
     NUMERO          reduce using rule 19 (expresion -> - expresion .)
     CONSTANTE       reduce using rule 19 (expresion -> - expresion .)
     VARIABLE        reduce using rule 19 (expresion -> - expresion .)
-    INDEFINIDA      reduce using rule 19 (expresion -> - expresion .)
     FUNCION         reduce using rule 19 (expresion -> - expresion .)
     (               reduce using rule 19 (expresion -> - expresion .)
+    INDEFINIDA      reduce using rule 19 (expresion -> - expresion .)
     $end            reduce using rule 19 (expresion -> - expresion .)
     )               reduce using rule 19 (expresion -> - expresion .)
-    ^               shift and go to state 19
+    ^               shift and go to state 20
 
   ! ^               [ reduce using rule 19 (expresion -> - expresion .) ]
-  ! +               [ shift and go to state 15 ]
-  ! -               [ shift and go to state 16 ]
-  ! *               [ shift and go to state 17 ]
-  ! /               [ shift and go to state 18 ]
+  ! +               [ shift and go to state 16 ]
+  ! -               [ shift and go to state 17 ]
+  ! *               [ shift and go to state 18 ]
+  ! /               [ shift and go to state 19 ]
 
 
 state 28
+
+    (7) asignacion -> INDEFINIDA = . expresion
+    (8) expresion -> . NUMERO
+    (9) expresion -> . CONSTANTE
+    (10) expresion -> . VARIABLE
+    (11) expresion -> . asignacion
+    (12) expresion -> . FUNCION ( expresion )
+    (13) expresion -> . expresion + expresion
+    (14) expresion -> . expresion - expresion
+    (15) expresion -> . expresion * expresion
+    (16) expresion -> . expresion / expresion
+    (17) expresion -> . expresion ^ expresion
+    (18) expresion -> . ( expresion )
+    (19) expresion -> . - expresion
+    (6) asignacion -> . VARIABLE = expresion
+    (7) asignacion -> . INDEFINIDA = expresion
+
+    NUMERO          shift and go to state 7
+    CONSTANTE       shift and go to state 8
+    VARIABLE        shift and go to state 9
+    FUNCION         shift and go to state 11
+    (               shift and go to state 12
+    -               shift and go to state 13
+    INDEFINIDA      shift and go to state 14
+
+    expresion                      shift and go to state 37
+    asignacion                     shift and go to state 10
+
+state 29
 
     (13) expresion -> expresion + expresion .
     (13) expresion -> expresion . + expresion
@@ -753,23 +757,23 @@ state 28
     NUMERO          reduce using rule 13 (expresion -> expresion + expresion .)
     CONSTANTE       reduce using rule 13 (expresion -> expresion + expresion .)
     VARIABLE        reduce using rule 13 (expresion -> expresion + expresion .)
-    INDEFINIDA      reduce using rule 13 (expresion -> expresion + expresion .)
     FUNCION         reduce using rule 13 (expresion -> expresion + expresion .)
     (               reduce using rule 13 (expresion -> expresion + expresion .)
+    INDEFINIDA      reduce using rule 13 (expresion -> expresion + expresion .)
     $end            reduce using rule 13 (expresion -> expresion + expresion .)
     )               reduce using rule 13 (expresion -> expresion + expresion .)
-    *               shift and go to state 17
-    /               shift and go to state 18
-    ^               shift and go to state 19
+    *               shift and go to state 18
+    /               shift and go to state 19
+    ^               shift and go to state 20
 
   ! *               [ reduce using rule 13 (expresion -> expresion + expresion .) ]
   ! /               [ reduce using rule 13 (expresion -> expresion + expresion .) ]
   ! ^               [ reduce using rule 13 (expresion -> expresion + expresion .) ]
-  ! +               [ shift and go to state 15 ]
-  ! -               [ shift and go to state 16 ]
+  ! +               [ shift and go to state 16 ]
+  ! -               [ shift and go to state 17 ]
 
 
-state 29
+state 30
 
     (14) expresion -> expresion - expresion .
     (13) expresion -> expresion . + expresion
@@ -786,23 +790,23 @@ state 29
     NUMERO          reduce using rule 14 (expresion -> expresion - expresion .)
     CONSTANTE       reduce using rule 14 (expresion -> expresion - expresion .)
     VARIABLE        reduce using rule 14 (expresion -> expresion - expresion .)
-    INDEFINIDA      reduce using rule 14 (expresion -> expresion - expresion .)
     FUNCION         reduce using rule 14 (expresion -> expresion - expresion .)
     (               reduce using rule 14 (expresion -> expresion - expresion .)
+    INDEFINIDA      reduce using rule 14 (expresion -> expresion - expresion .)
     $end            reduce using rule 14 (expresion -> expresion - expresion .)
     )               reduce using rule 14 (expresion -> expresion - expresion .)
-    *               shift and go to state 17
-    /               shift and go to state 18
-    ^               shift and go to state 19
+    *               shift and go to state 18
+    /               shift and go to state 19
+    ^               shift and go to state 20
 
   ! *               [ reduce using rule 14 (expresion -> expresion - expresion .) ]
   ! /               [ reduce using rule 14 (expresion -> expresion - expresion .) ]
   ! ^               [ reduce using rule 14 (expresion -> expresion - expresion .) ]
-  ! +               [ shift and go to state 15 ]
-  ! -               [ shift and go to state 16 ]
+  ! +               [ shift and go to state 16 ]
+  ! -               [ shift and go to state 17 ]
 
 
-state 30
+state 31
 
     (15) expresion -> expresion * expresion .
     (13) expresion -> expresion . + expresion
@@ -821,21 +825,21 @@ state 30
     NUMERO          reduce using rule 15 (expresion -> expresion * expresion .)
     CONSTANTE       reduce using rule 15 (expresion -> expresion * expresion .)
     VARIABLE        reduce using rule 15 (expresion -> expresion * expresion .)
-    INDEFINIDA      reduce using rule 15 (expresion -> expresion * expresion .)
     FUNCION         reduce using rule 15 (expresion -> expresion * expresion .)
     (               reduce using rule 15 (expresion -> expresion * expresion .)
+    INDEFINIDA      reduce using rule 15 (expresion -> expresion * expresion .)
     $end            reduce using rule 15 (expresion -> expresion * expresion .)
     )               reduce using rule 15 (expresion -> expresion * expresion .)
-    ^               shift and go to state 19
+    ^               shift and go to state 20
 
   ! ^               [ reduce using rule 15 (expresion -> expresion * expresion .) ]
-  ! +               [ shift and go to state 15 ]
-  ! -               [ shift and go to state 16 ]
-  ! *               [ shift and go to state 17 ]
-  ! /               [ shift and go to state 18 ]
+  ! +               [ shift and go to state 16 ]
+  ! -               [ shift and go to state 17 ]
+  ! *               [ shift and go to state 18 ]
+  ! /               [ shift and go to state 19 ]
 
 
-state 31
+state 32
 
     (16) expresion -> expresion / expresion .
     (13) expresion -> expresion . + expresion
@@ -854,21 +858,21 @@ state 31
     NUMERO          reduce using rule 16 (expresion -> expresion / expresion .)
     CONSTANTE       reduce using rule 16 (expresion -> expresion / expresion .)
     VARIABLE        reduce using rule 16 (expresion -> expresion / expresion .)
-    INDEFINIDA      reduce using rule 16 (expresion -> expresion / expresion .)
     FUNCION         reduce using rule 16 (expresion -> expresion / expresion .)
     (               reduce using rule 16 (expresion -> expresion / expresion .)
+    INDEFINIDA      reduce using rule 16 (expresion -> expresion / expresion .)
     $end            reduce using rule 16 (expresion -> expresion / expresion .)
     )               reduce using rule 16 (expresion -> expresion / expresion .)
-    ^               shift and go to state 19
+    ^               shift and go to state 20
 
   ! ^               [ reduce using rule 16 (expresion -> expresion / expresion .) ]
-  ! +               [ shift and go to state 15 ]
-  ! -               [ shift and go to state 16 ]
-  ! *               [ shift and go to state 17 ]
-  ! /               [ shift and go to state 18 ]
+  ! +               [ shift and go to state 16 ]
+  ! -               [ shift and go to state 17 ]
+  ! *               [ shift and go to state 18 ]
+  ! /               [ shift and go to state 19 ]
 
 
-state 32
+state 33
 
     (17) expresion -> expresion ^ expresion .
     (13) expresion -> expresion . + expresion
@@ -887,61 +891,23 @@ state 32
     NUMERO          reduce using rule 17 (expresion -> expresion ^ expresion .)
     CONSTANTE       reduce using rule 17 (expresion -> expresion ^ expresion .)
     VARIABLE        reduce using rule 17 (expresion -> expresion ^ expresion .)
-    INDEFINIDA      reduce using rule 17 (expresion -> expresion ^ expresion .)
     FUNCION         reduce using rule 17 (expresion -> expresion ^ expresion .)
     (               reduce using rule 17 (expresion -> expresion ^ expresion .)
+    INDEFINIDA      reduce using rule 17 (expresion -> expresion ^ expresion .)
     $end            reduce using rule 17 (expresion -> expresion ^ expresion .)
     )               reduce using rule 17 (expresion -> expresion ^ expresion .)
-    ^               shift and go to state 19
+    ^               shift and go to state 20
 
   ! ^               [ reduce using rule 17 (expresion -> expresion ^ expresion .) ]
-  ! +               [ shift and go to state 15 ]
-  ! -               [ shift and go to state 16 ]
-  ! *               [ shift and go to state 17 ]
-  ! /               [ shift and go to state 18 ]
-
-
-state 33
-
-    (5) asignacion -> VARIABLE = expresion .
-    (13) expresion -> expresion . + expresion
-    (14) expresion -> expresion . - expresion
-    (15) expresion -> expresion . * expresion
-    (16) expresion -> expresion . / expresion
-    (17) expresion -> expresion . ^ expresion
-
-  ! shift/reduce conflict for + resolved as shift
-  ! shift/reduce conflict for - resolved as shift
-  ! shift/reduce conflict for * resolved as shift
-  ! shift/reduce conflict for / resolved as shift
-  ! shift/reduce conflict for ^ resolved as shift
-    ;               reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    SALTOLINEA      reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    error           reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    NUMERO          reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    CONSTANTE       reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    VARIABLE        reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    INDEFINIDA      reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    FUNCION         reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    (               reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    $end            reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    )               reduce using rule 5 (asignacion -> VARIABLE = expresion .)
-    +               shift and go to state 15
-    -               shift and go to state 16
-    *               shift and go to state 17
-    /               shift and go to state 18
-    ^               shift and go to state 19
-
-  ! +               [ reduce using rule 5 (asignacion -> VARIABLE = expresion .) ]
-  ! -               [ reduce using rule 5 (asignacion -> VARIABLE = expresion .) ]
-  ! *               [ reduce using rule 5 (asignacion -> VARIABLE = expresion .) ]
-  ! /               [ reduce using rule 5 (asignacion -> VARIABLE = expresion .) ]
-  ! ^               [ reduce using rule 5 (asignacion -> VARIABLE = expresion .) ]
+  ! +               [ shift and go to state 16 ]
+  ! -               [ shift and go to state 17 ]
+  ! *               [ shift and go to state 18 ]
+  ! /               [ shift and go to state 19 ]
 
 
 state 34
 
-    (6) asignacion -> INDEFINIDA = expresion .
+    (6) asignacion -> VARIABLE = expresion .
     (13) expresion -> expresion . + expresion
     (14) expresion -> expresion . - expresion
     (15) expresion -> expresion . * expresion
@@ -953,28 +919,28 @@ state 34
   ! shift/reduce conflict for * resolved as shift
   ! shift/reduce conflict for / resolved as shift
   ! shift/reduce conflict for ^ resolved as shift
-    ;               reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    SALTOLINEA      reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    error           reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    NUMERO          reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    CONSTANTE       reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    VARIABLE        reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    INDEFINIDA      reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    FUNCION         reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    (               reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    $end            reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    )               reduce using rule 6 (asignacion -> INDEFINIDA = expresion .)
-    +               shift and go to state 15
-    -               shift and go to state 16
-    *               shift and go to state 17
-    /               shift and go to state 18
-    ^               shift and go to state 19
+    ;               reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    SALTOLINEA      reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    error           reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    NUMERO          reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    CONSTANTE       reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    VARIABLE        reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    FUNCION         reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    (               reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    INDEFINIDA      reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    $end            reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    )               reduce using rule 6 (asignacion -> VARIABLE = expresion .)
+    +               shift and go to state 16
+    -               shift and go to state 17
+    *               shift and go to state 18
+    /               shift and go to state 19
+    ^               shift and go to state 20
 
-  ! +               [ reduce using rule 6 (asignacion -> INDEFINIDA = expresion .) ]
-  ! -               [ reduce using rule 6 (asignacion -> INDEFINIDA = expresion .) ]
-  ! *               [ reduce using rule 6 (asignacion -> INDEFINIDA = expresion .) ]
-  ! /               [ reduce using rule 6 (asignacion -> INDEFINIDA = expresion .) ]
-  ! ^               [ reduce using rule 6 (asignacion -> INDEFINIDA = expresion .) ]
+  ! +               [ reduce using rule 6 (asignacion -> VARIABLE = expresion .) ]
+  ! -               [ reduce using rule 6 (asignacion -> VARIABLE = expresion .) ]
+  ! *               [ reduce using rule 6 (asignacion -> VARIABLE = expresion .) ]
+  ! /               [ reduce using rule 6 (asignacion -> VARIABLE = expresion .) ]
+  ! ^               [ reduce using rule 6 (asignacion -> VARIABLE = expresion .) ]
 
 
 state 35
@@ -986,12 +952,12 @@ state 35
     (16) expresion -> expresion . / expresion
     (17) expresion -> expresion . ^ expresion
 
-    )               shift and go to state 37
-    +               shift and go to state 15
-    -               shift and go to state 16
-    *               shift and go to state 17
-    /               shift and go to state 18
-    ^               shift and go to state 19
+    )               shift and go to state 38
+    +               shift and go to state 16
+    -               shift and go to state 17
+    *               shift and go to state 18
+    /               shift and go to state 19
+    ^               shift and go to state 20
 
 
 state 36
@@ -1009,14 +975,52 @@ state 36
     NUMERO          reduce using rule 18 (expresion -> ( expresion ) .)
     CONSTANTE       reduce using rule 18 (expresion -> ( expresion ) .)
     VARIABLE        reduce using rule 18 (expresion -> ( expresion ) .)
-    INDEFINIDA      reduce using rule 18 (expresion -> ( expresion ) .)
     FUNCION         reduce using rule 18 (expresion -> ( expresion ) .)
     (               reduce using rule 18 (expresion -> ( expresion ) .)
+    INDEFINIDA      reduce using rule 18 (expresion -> ( expresion ) .)
     $end            reduce using rule 18 (expresion -> ( expresion ) .)
     )               reduce using rule 18 (expresion -> ( expresion ) .)
 
 
 state 37
+
+    (7) asignacion -> INDEFINIDA = expresion .
+    (13) expresion -> expresion . + expresion
+    (14) expresion -> expresion . - expresion
+    (15) expresion -> expresion . * expresion
+    (16) expresion -> expresion . / expresion
+    (17) expresion -> expresion . ^ expresion
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for * resolved as shift
+  ! shift/reduce conflict for / resolved as shift
+  ! shift/reduce conflict for ^ resolved as shift
+    ;               reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    SALTOLINEA      reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    error           reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    NUMERO          reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    CONSTANTE       reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    VARIABLE        reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    FUNCION         reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    (               reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    INDEFINIDA      reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    $end            reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    )               reduce using rule 7 (asignacion -> INDEFINIDA = expresion .)
+    +               shift and go to state 16
+    -               shift and go to state 17
+    *               shift and go to state 18
+    /               shift and go to state 19
+    ^               shift and go to state 20
+
+  ! +               [ reduce using rule 7 (asignacion -> INDEFINIDA = expresion .) ]
+  ! -               [ reduce using rule 7 (asignacion -> INDEFINIDA = expresion .) ]
+  ! *               [ reduce using rule 7 (asignacion -> INDEFINIDA = expresion .) ]
+  ! /               [ reduce using rule 7 (asignacion -> INDEFINIDA = expresion .) ]
+  ! ^               [ reduce using rule 7 (asignacion -> INDEFINIDA = expresion .) ]
+
+
+state 38
 
     (12) expresion -> FUNCION ( expresion ) .
 
@@ -1031,23 +1035,25 @@ state 37
     NUMERO          reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
     CONSTANTE       reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
     VARIABLE        reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
-    INDEFINIDA      reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
     FUNCION         reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
     (               reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
+    INDEFINIDA      reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
     $end            reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
     )               reduce using rule 12 (expresion -> FUNCION ( expresion ) .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for - in state 4 resolved as shift
-WARNING: shift/reduce conflict for + in state 33 resolved as shift
-WARNING: shift/reduce conflict for - in state 33 resolved as shift
-WARNING: shift/reduce conflict for * in state 33 resolved as shift
-WARNING: shift/reduce conflict for / in state 33 resolved as shift
-WARNING: shift/reduce conflict for ^ in state 33 resolved as shift
+WARNING: shift/reduce conflict for ; in state 5 resolved as shift
+WARNING: shift/reduce conflict for - in state 5 resolved as shift
+WARNING: shift/reduce conflict for ; in state 6 resolved as shift
 WARNING: shift/reduce conflict for + in state 34 resolved as shift
 WARNING: shift/reduce conflict for - in state 34 resolved as shift
 WARNING: shift/reduce conflict for * in state 34 resolved as shift
 WARNING: shift/reduce conflict for / in state 34 resolved as shift
 WARNING: shift/reduce conflict for ^ in state 34 resolved as shift
+WARNING: shift/reduce conflict for + in state 37 resolved as shift
+WARNING: shift/reduce conflict for - in state 37 resolved as shift
+WARNING: shift/reduce conflict for * in state 37 resolved as shift
+WARNING: shift/reduce conflict for / in state 37 resolved as shift
+WARNING: shift/reduce conflict for ^ in state 37 resolved as shift

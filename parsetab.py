@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "left+-left*/leftMENOSUNARIOright^CONSTANTE FUNCION INDEFINIDA NUMERO SALTOLINEA VARIABLE\n\tlista \t: vacio\n\t\t\t| lista SALTOLINEA\n\t\t\t| lista expresion termino\n\t lista : lista error termino  asignacion \t: VARIABLE '=' expresion\n\t\t\t\t\t| INDEFINIDA '=' expresion\n\t\n\texpresion \t: NUMERO\n\t\t\t\t| CONSTANTE\n\t\texpresion \t: VARIABLE \n\t\t\t\t\t| INDEFINIDA\n\t expresion : asignacion  \n\texpresion \t: FUNCION '(' expresion ')'\n\t\t\t\t| expresion '+' expresion\n\t\t\t\t| expresion '-' expresion\n\t\t\t\t| expresion '*' expresion\n\t\t\t\t| expresion '/' expresion\n\t\t\t\t| expresion '^' expresion\n\t \n\texpresion \t: '(' expresion ')'\n\t\t\t\t| '-' expresion %prec MENOSUNARIO\n\t vacio : termino  : vacio\n\t\t\t\t| ';' "
+_lr_signature = "left+-left*/leftMENOSUNARIOright^CONSTANTE FUNCION INDEFINIDA NUMERO SALTOLINEA VARIABLE\n\tlista \t: vacio\n\t\t\t| lista SALTOLINEA\n\t\t\t| lista ';'\n\t\t\t| lista expresion termino\n\t lista : lista error termino  asignacion \t: VARIABLE '=' expresion\n\t\t\t\t\t| INDEFINIDA '=' expresion\n\t\n\texpresion \t: NUMERO\n\t\t\t\t| CONSTANTE\n\t\texpresion \t: VARIABLE  expresion : asignacion  \n\texpresion \t: FUNCION '(' expresion ')'\n\t\t\t\t| expresion '+' expresion\n\t\t\t\t| expresion '-' expresion\n\t\t\t\t| expresion '*' expresion\n\t\t\t\t| expresion '/' expresion\n\t\t\t\t| expresion '^' expresion\n\t \n\texpresion \t: '(' expresion ')'\n\t\t\t\t| '-' expresion %prec MENOSUNARIO\n\t vacio : termino  : vacio\n\t\t\t\t| ';' "
     
-_lr_action_items = {'SALTOLINEA':([0,1,2,3,4,5,6,7,8,9,10,14,20,21,22,27,28,29,30,31,32,33,34,36,37,],[-20,3,-1,-2,-20,-20,-7,-8,-9,-10,-11,-3,-21,-22,-4,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'error':([0,1,2,3,4,5,6,7,8,9,10,14,20,21,22,27,28,29,30,31,32,33,34,36,37,],[-20,5,-1,-2,-20,-20,-7,-8,-9,-10,-11,-3,-21,-22,-4,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'NUMERO':([0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,],[-20,6,-1,-2,-20,-20,-7,-8,-9,-10,-11,6,6,-3,6,6,6,6,6,-21,-22,-4,6,6,6,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'CONSTANTE':([0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,],[-20,7,-1,-2,-20,-20,-7,-8,-9,-10,-11,7,7,-3,7,7,7,7,7,-21,-22,-4,7,7,7,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'VARIABLE':([0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,],[-20,8,-1,-2,-20,-20,-7,-8,-9,-10,-11,8,8,-3,8,8,8,8,8,-21,-22,-4,8,8,8,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'INDEFINIDA':([0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,],[-20,9,-1,-2,-20,-20,-7,-8,-9,-10,-11,9,9,-3,9,9,9,9,9,-21,-22,-4,9,9,9,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'FUNCION':([0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,],[-20,11,-1,-2,-20,-20,-7,-8,-9,-10,-11,11,11,-3,11,11,11,11,11,-21,-22,-4,11,11,11,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'(':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,],[-20,12,-1,-2,-20,-20,-7,-8,-9,-10,-11,25,12,12,-3,12,12,12,12,12,-21,-22,-4,12,12,12,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'-':([0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[-20,13,-1,-2,16,-20,-7,-8,-9,-10,-11,13,13,-3,13,13,13,13,13,-21,-22,-4,13,13,13,16,-19,-13,-14,-15,-16,-17,16,16,16,-18,-12,]),'$end':([0,1,2,3,4,5,6,7,8,9,10,14,20,21,22,27,28,29,30,31,32,33,34,36,37,],[-20,0,-1,-2,-20,-20,-7,-8,-9,-10,-11,-3,-21,-22,-4,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),'+':([4,6,7,8,9,10,26,27,28,29,30,31,32,33,34,35,36,37,],[15,-7,-8,-9,-10,-11,15,-19,-13,-14,-15,-16,-17,15,15,15,-18,-12,]),'*':([4,6,7,8,9,10,26,27,28,29,30,31,32,33,34,35,36,37,],[17,-7,-8,-9,-10,-11,17,-19,17,17,-15,-16,-17,17,17,17,-18,-12,]),'/':([4,6,7,8,9,10,26,27,28,29,30,31,32,33,34,35,36,37,],[18,-7,-8,-9,-10,-11,18,-19,18,18,-15,-16,-17,18,18,18,-18,-12,]),'^':([4,6,7,8,9,10,26,27,28,29,30,31,32,33,34,35,36,37,],[19,-7,-8,-9,-10,-11,19,19,19,19,19,19,19,19,19,19,-18,-12,]),';':([4,5,6,7,8,9,10,27,28,29,30,31,32,33,34,36,37,],[21,21,-7,-8,-9,-10,-11,-19,-13,-14,-15,-16,-17,-5,-6,-18,-12,]),')':([6,7,8,9,10,26,27,28,29,30,31,32,33,34,35,36,37,],[-7,-8,-9,-10,-11,36,-19,-13,-14,-15,-16,-17,-5,-6,37,-18,-12,]),'=':([8,9,],[23,24,]),}
+_lr_action_items = {'SALTOLINEA':([0,1,2,3,4,5,6,7,8,9,10,15,21,22,23,27,29,30,31,32,33,34,36,37,38,],[-20,3,-1,-2,-3,-20,-20,-8,-9,-10,-11,-4,-21,-22,-5,-19,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),';':([0,1,2,3,4,5,6,7,8,9,10,15,21,22,23,27,29,30,31,32,33,34,36,37,38,],[-20,4,-1,-2,-3,22,22,-8,-9,-10,-11,-4,-21,-22,-5,-19,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'error':([0,1,2,3,4,5,6,7,8,9,10,15,21,22,23,27,29,30,31,32,33,34,36,37,38,],[-20,6,-1,-2,-3,-20,-20,-8,-9,-10,-11,-4,-21,-22,-5,-19,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'NUMERO':([0,1,2,3,4,5,6,7,8,9,10,12,13,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,38,],[-20,7,-1,-2,-3,-20,-20,-8,-9,-10,-11,7,7,-4,7,7,7,7,7,-21,-22,-5,7,7,-19,7,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'CONSTANTE':([0,1,2,3,4,5,6,7,8,9,10,12,13,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,38,],[-20,8,-1,-2,-3,-20,-20,-8,-9,-10,-11,8,8,-4,8,8,8,8,8,-21,-22,-5,8,8,-19,8,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'VARIABLE':([0,1,2,3,4,5,6,7,8,9,10,12,13,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,38,],[-20,9,-1,-2,-3,-20,-20,-8,-9,-10,-11,9,9,-4,9,9,9,9,9,-21,-22,-5,9,9,-19,9,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'FUNCION':([0,1,2,3,4,5,6,7,8,9,10,12,13,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,38,],[-20,11,-1,-2,-3,-20,-20,-8,-9,-10,-11,11,11,-4,11,11,11,11,11,-21,-22,-5,11,11,-19,11,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'(':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,38,],[-20,12,-1,-2,-3,-20,-20,-8,-9,-10,-11,25,12,12,-4,12,12,12,12,12,-21,-22,-5,12,12,-19,12,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'-':([0,1,2,3,4,5,6,7,8,9,10,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,],[-20,13,-1,-2,-3,17,-20,-8,-9,-10,-11,13,13,-4,13,13,13,13,13,-21,-22,-5,13,13,17,-19,13,-13,-14,-15,-16,-17,17,17,-18,17,-12,]),'INDEFINIDA':([0,1,2,3,4,5,6,7,8,9,10,12,13,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,36,37,38,],[-20,14,-1,-2,-3,-20,-20,-8,-9,-10,-11,14,14,-4,14,14,14,14,14,-21,-22,-5,14,14,-19,14,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'$end':([0,1,2,3,4,5,6,7,8,9,10,15,21,22,23,27,29,30,31,32,33,34,36,37,38,],[-20,0,-1,-2,-3,-20,-20,-8,-9,-10,-11,-4,-21,-22,-5,-19,-13,-14,-15,-16,-17,-6,-18,-7,-12,]),'+':([5,7,8,9,10,26,27,29,30,31,32,33,34,35,36,37,38,],[16,-8,-9,-10,-11,16,-19,-13,-14,-15,-16,-17,16,16,-18,16,-12,]),'*':([5,7,8,9,10,26,27,29,30,31,32,33,34,35,36,37,38,],[18,-8,-9,-10,-11,18,-19,18,18,-15,-16,-17,18,18,-18,18,-12,]),'/':([5,7,8,9,10,26,27,29,30,31,32,33,34,35,36,37,38,],[19,-8,-9,-10,-11,19,-19,19,19,-15,-16,-17,19,19,-18,19,-12,]),'^':([5,7,8,9,10,26,27,29,30,31,32,33,34,35,36,37,38,],[20,-8,-9,-10,-11,20,20,20,20,20,20,20,20,20,-18,20,-12,]),')':([7,8,9,10,26,27,29,30,31,32,33,34,35,36,37,38,],[-8,-9,-10,-11,36,-19,-13,-14,-15,-16,-17,-6,38,-18,-7,-12,]),'=':([9,14,],[24,28,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'lista':([0,],[1,]),'vacio':([0,4,5,],[2,20,20,]),'expresion':([1,12,13,15,16,17,18,19,23,24,25,],[4,26,27,28,29,30,31,32,33,34,35,]),'asignacion':([1,12,13,15,16,17,18,19,23,24,25,],[10,10,10,10,10,10,10,10,10,10,10,]),'termino':([4,5,],[14,22,]),}
+_lr_goto_items = {'lista':([0,],[1,]),'vacio':([0,5,6,],[2,21,21,]),'expresion':([1,12,13,16,17,18,19,20,24,25,28,],[5,26,27,29,30,31,32,33,34,35,37,]),'asignacion':([1,12,13,16,17,18,19,20,24,25,28,],[10,10,10,10,10,10,10,10,10,10,10,]),'termino':([5,6,],[15,23,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -29,14 +29,14 @@ _lr_productions = [
   ("S' -> lista","S'",1,None,None,None),
   ('lista -> vacio','lista',1,'p_lista','AnalizadorSintactico.py',27),
   ('lista -> lista SALTOLINEA','lista',2,'p_lista','AnalizadorSintactico.py',28),
-  ('lista -> lista expresion termino','lista',3,'p_lista','AnalizadorSintactico.py',29),
-  ('lista -> lista error termino','lista',3,'p_lista_error','AnalizadorSintactico.py',38),
-  ('asignacion -> VARIABLE = expresion','asignacion',3,'p_asignacion','AnalizadorSintactico.py',46),
-  ('asignacion -> INDEFINIDA = expresion','asignacion',3,'p_asignacion','AnalizadorSintactico.py',47),
-  ('expresion -> NUMERO','expresion',1,'p_expresion_reducciones','AnalizadorSintactico.py',56),
-  ('expresion -> CONSTANTE','expresion',1,'p_expresion_reducciones','AnalizadorSintactico.py',57),
-  ('expresion -> VARIABLE','expresion',1,'p_expresion_variable','AnalizadorSintactico.py',63),
-  ('expresion -> INDEFINIDA','expresion',1,'p_expresion_variable','AnalizadorSintactico.py',64),
+  ('lista -> lista ;','lista',2,'p_lista','AnalizadorSintactico.py',29),
+  ('lista -> lista expresion termino','lista',3,'p_lista','AnalizadorSintactico.py',30),
+  ('lista -> lista error termino','lista',3,'p_lista_error','AnalizadorSintactico.py',39),
+  ('asignacion -> VARIABLE = expresion','asignacion',3,'p_asignacion','AnalizadorSintactico.py',47),
+  ('asignacion -> INDEFINIDA = expresion','asignacion',3,'p_asignacion','AnalizadorSintactico.py',48),
+  ('expresion -> NUMERO','expresion',1,'p_expresion_reducciones','AnalizadorSintactico.py',58),
+  ('expresion -> CONSTANTE','expresion',1,'p_expresion_reducciones','AnalizadorSintactico.py',59),
+  ('expresion -> VARIABLE','expresion',1,'p_expresion_variable','AnalizadorSintactico.py',65),
   ('expresion -> asignacion','expresion',1,'p_expresion_asignacion','AnalizadorSintactico.py',70),
   ('expresion -> FUNCION ( expresion )','expresion',4,'p_expresion_operaciones','AnalizadorSintactico.py',75),
   ('expresion -> expresion + expresion','expresion',3,'p_expresion_operaciones','AnalizadorSintactico.py',76),
@@ -44,9 +44,9 @@ _lr_productions = [
   ('expresion -> expresion * expresion','expresion',3,'p_expresion_operaciones','AnalizadorSintactico.py',78),
   ('expresion -> expresion / expresion','expresion',3,'p_expresion_operaciones','AnalizadorSintactico.py',79),
   ('expresion -> expresion ^ expresion','expresion',3,'p_expresion_operaciones','AnalizadorSintactico.py',80),
-  ('expresion -> ( expresion )','expresion',3,'p_expresion_modificaciones','AnalizadorSintactico.py',94),
-  ('expresion -> - expresion','expresion',2,'p_expresion_modificaciones','AnalizadorSintactico.py',95),
-  ('vacio -> <empty>','vacio',0,'p_vacio','AnalizadorSintactico.py',101),
-  ('termino -> vacio','termino',1,'p_termino','AnalizadorSintactico.py',105),
-  ('termino -> ;','termino',1,'p_termino','AnalizadorSintactico.py',106),
+  ('expresion -> ( expresion )','expresion',3,'p_expresion_modificaciones','AnalizadorSintactico.py',95),
+  ('expresion -> - expresion','expresion',2,'p_expresion_modificaciones','AnalizadorSintactico.py',96),
+  ('vacio -> <empty>','vacio',0,'p_vacio','AnalizadorSintactico.py',102),
+  ('termino -> vacio','termino',1,'p_termino','AnalizadorSintactico.py',106),
+  ('termino -> ;','termino',1,'p_termino','AnalizadorSintactico.py',107),
 ]

@@ -78,7 +78,8 @@ funciones = {
 	'exp':Exp,
 	'sqrt':Sqrt,
 	'abs':math.fabs,
-	'int':int
+	'int':int,
+	'print':print
 }
 
 variables = {}  # Diccionario que almacena el nombre(key) y valor(value) de las variables
@@ -114,37 +115,4 @@ def imprimirNotificacion(mensaje):
 	print('\x1b[1;33m'+'\n--- %s ---\n',mensaje)
 
 def imprimirResultado(resultado):
-	print('\x1b[0;m'+'HOC3 >> %s'+'\x1b[0;m',resultado)
-
-
-
-	"""
-	Reglas gramaticales
-	>>>>>>>>>>>>>>>>>>>
-
-	lista 	: vacio
-			| lista termino
-			| lista expresion termino
-			| lista error termino
-
-	asignacion : VARIABLE '=' expresion
-
-	expresion 	: NUMERO
-				| CONSTANTE
-				| VARIABLE
-				| INDEFINIDA
-				| asignacion
-				| FUNCION '(' expresion ')'
-				| '(' expresion ')'
-				| expresion '+' expresion
-				| expresion '-' expresion
-				| expresion '*' expresion
-				| expresion '/' expresion
-				| expresion '^' expresion
-				| '-' expresion %prec MENOSUNARIO
-
-	termino : vacio
-			| ';'
-
-	vacio :
-"""
+	print('HOC4 >> ',resultado)

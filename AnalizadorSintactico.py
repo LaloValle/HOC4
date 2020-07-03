@@ -26,12 +26,13 @@ def p_lista(p):
 	'''
 	lista 	: vacio
 			| lista SALTOLINEA
+			| lista ';'
 			| lista expresion termino
 	'''
 	try:
 		p[0] = p[(1 if len(p) == 3 else 2)]
 		if len(p) == 4:
-			programa.agregarInstrucciones('print','STOP')
+			programa.agregarInstrucciones('STOP')
 	except: pass
 
 def p_lista_error(p):
@@ -48,6 +49,7 @@ def p_asignacion(p):
 	'''
 	p[0] = p[3]
 	programa.agregarInstrucciones('varpush',p[1],'asignacion')
+	if p[1] not in recursos.variables: recursos.variables[p[1]] = None
 	pass
 
 
@@ -60,9 +62,7 @@ def p_expresion_reducciones(p):
 	programa.agregarInstrucciones('constpush',p[1])
 
 def p_expresion_variable(p):
-	'''	expresion 	: VARIABLE 
-					| INDEFINIDA
-	'''
+	'''	expresion 	: VARIABLE '''
 	p[0] = p[1]
 	programa.agregarInstrucciones('varpush',p[1])
 
@@ -87,7 +87,8 @@ def p_expresion_operaciones(p):
 		elif operador == '/': programa.agregarInstrucciones('division')
 		else: programa.agregarInstrucciones('potencia')
 	else:  # Funciones
-		programa.agregarInstrucciones('funcion',p[1])
+		if p[1] == print : programa.agregarInstrucciones('print')
+		else:  programa.agregarInstrucciones('funcion',p[1])
 
 def p_expresion_modificaciones(p):
 	''' 

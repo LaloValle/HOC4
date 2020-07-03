@@ -28,19 +28,17 @@ class Dato():
 		'indefinida'
 	]
 
-	def __init__(self,valor,tipo):
+	def __init__(self,valor,tipo,nombre=''):
+		self.nombre = nombre  # Utilizado en el nombre de las variables o indefinidas
 		self.valor = valor  # Campo que puede tomar un valor numérico, cadena, o función
-		self.tipo = tipo if tipo in tipoDato else None
+		self.tipo = tipo if tipo in Dato.tipoDato else None
 
 
 
 class Programa():
 
 	def __init__(self):  # Constructor privado
-		self._indicePrograma = 0  # Indice de la siguiente casilla disponible
-		self._contadorPrograma = 0  # Indice actual de las instrucciones durante la interpretación
-
-		self._programa = []  # Lista de instrucciones
+		self.reiniciarPrograma()
 
 		self._interprete = Interprete()
 
@@ -55,10 +53,22 @@ class Programa():
 
 		return auxIndicePrograma
 
-	def ejecutar():
-		while not self._programa[self._contadorPrograma]:
-			self._contadorPrograma += 1
-			self._programa[self._contadorPrograma - 1]()
+	def ejecutar(self):
+		if self._programa:
+			while self._programa[self._contadorPrograma]:
+				print('Contador: ', self._contadorPrograma)
+				self._contadorPrograma += 1
+				print('Instruccion: ',self._programa[self._contadorPrograma - 1])
+				self._programa[self._contadorPrograma - 1]()
+
+				print('Pila: ',self._interprete._pila)
+
+
+	def reiniciarPrograma(self):
+		self._indicePrograma = 0  # Indice de la siguiente casilla disponible
+		self._contadorPrograma = 0  # Indice actual de las instrucciones durante la interpretación
+
+		self._programa = []  # Lista de instrucciones
 
 
 	instancia = None
@@ -78,33 +88,33 @@ class Programa():
 		self._contadorPrograma += 1
 	
 	def varpush(self):  # Introduce el nombre de una variable en la pila del interprete
-		variable = Dato(self._programa[self._contadorPrograma],'variable')
+		variable = Dato(recursos.variables[self._programa[self._contadorPrograma]],'variable',self._programa[self._contadorPrograma])
 		self._interprete.push(variable)
 		self._contadorPrograma += 1
 
 	def evaluacion(self):  # Evaluación de una variable en la pila del interprete
 		variable = self._interprete.pop()
 		if variable.tipo == 'indefinida': recursos.imprimirError('ErrorVariable','No se puede realizar la evaluacion de una variable indefinida')
-		variable.valor = recursos.variables[variable.valor]
+		variable.valor = recursos.variables[variable.nombre]
 		self._interprete.push(variable)
 
 	def suma(self):
 		n2 = self._interprete.pop()
 		n1 = self._interprete.pop()
-		n1.valor += n2.valor
-		self._interprete.push(n1)
+		res = Dato(n1.valor + n2.valor,'constante')
+		self._interprete.push(res)
 
 	def resta(self):
 		n2 = self._interprete.pop()
 		n1 = self._interprete.pop()
-		n1.valor -= n2.valor
-		self._interprete.push(n1)
+		res = Dato(n1.valor - n2.valor,'constante')
+		self._interprete.push(res)
 
 	def multiplicacion(self):
 		n2 = self._interprete.pop()
 		n1 = self._interprete.pop()
-		n1.valor *= n2.valor
-		self._interprete.push(n1)
+		res = Dato(n1.valor * n2.valor,'constante')
+		self._interprete.push(res)
 
 	def division(self):
 		n2 = self._interprete.pop()
@@ -112,14 +122,14 @@ class Programa():
 		if n2.valor == 0: 
 			recursos.imprimirError('DivisorCero','No se puede realizar la división entre 0')
 		else:
-			n1.valor /= n2.valor
-			self._interprete.push(n1)
+			res = Dato(n1.valor / n2.valor,'constante')
+		self._interprete.push(res)
 
 	def potencia(self):
 		n2 = self._interprete.pop()
 		n1 = self._interprete.pop()
-		n1.valor **= n2.valor
-		self._interprete.push(n1)
+		res = Dato(n1.valor ** n2.valor,'constante')
+		self._interprete.push(res)
 
 	def negacion(self):
 		n = self._interprete.pop()
@@ -132,7 +142,8 @@ class Programa():
 
 		if variable.tipo != 'variable' and variable.tipo != 'indefinida': recursos.imprimirError('ErrorVariable','No se puede realizar la asignación a un no variable')
 
-		recursos.variables[variable.valor] = expresion.valor
+		recursos.variables[variable.nombre] = expresion.valor
+		variable.valor = expresion.valor
 		variable.tipo = 'variable'
 		self._interprete.push(expresion)
 
@@ -144,4 +155,5 @@ class Programa():
 
 	def print(self):
 		dato = self._interprete.pop()
-		print(dato.valor)
+		cadena = dato.valor
+		recursos.imprimirResultado(cadena)

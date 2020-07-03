@@ -3,6 +3,7 @@ import PySimpleGUI as sg
 from AnalizadorLexico import *
 import AnalizadorSintactico as sintactico
 import Recursos as recursos
+from Programa import Programa
 
 sg.theme('GreenTan')  # No gray windows please!
 btnLexico = 'Analizar léxicamente'
@@ -34,6 +35,8 @@ window = sg.Window('My new window', layout, grab_anywhere=True)
 
 # STEP3 - the event loop
 while True:
+	global imprimir,cadena
+
 	event, values = window.read()   # Read the event that happened and the values dictionary
 	if event == sg.WIN_CLOSED:     # If user closed window with X or if user clicked "Exit" button then exit
 		break
@@ -52,8 +55,20 @@ while True:
 		if not s:
 			continue
 		else:
-			resultado = sintactico.analizarCadena(s)
-			resultado = resultado + '\n'
-			window[txtSin].Update(value=resultado, append=True)
+			sintactico.analizarCadena(s)
+			Programa.programa().ejecutar()
+	elif imprimir:
+		window[txtSin].Update(value=cadena, append=True)
+		cadena = ''
+		imprimir = False
 			
 window.close()
+
+""" Impresión de resultados llamados desde una función print"""
+imprimir = False  # Activo cuando se tenga un nueva cadena a imprimir
+cadena = ''  # Cadena que se muestra en el campo de texto
+
+def print(s):
+	global imprimir,cadena
+	imprimir = True
+	cadena = s

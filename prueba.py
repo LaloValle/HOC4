@@ -7,7 +7,15 @@ lexico.construir()
 
 sintactico.construir()
 
-cadena = input('Cadena>> ')
-print(lexico.analizarCadena(cadena))
-sintactico.analizarCadena(cadena)
-print(Programa.programa()._programa)
+while True:
+
+	cadena = input('Cadena>> ')
+	if cadena == 'exit': break
+	print('\n>>>>>>>>>>>>>>>>>>>>\n')
+	sintactico.analizarCadena(cadena)
+	print(Programa.programa()._programa)
+	#print('Inicia la interpretacion:\n')
+
+	Programa.programa().ejecutar()
+
+	Programa.programa().reiniciarPrograma()
